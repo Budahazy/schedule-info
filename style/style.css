@@ -1,0 +1,15 @@
+@font-face {
+    font-family: dotMatrix;
+    src: url('../font/led_counter-7.ttf');
+}
+
+html {
+    background-color: black;
+}
+
+#info-screen {
+    font-family: dotMatrix;
+    font-size: 24px;
+    color: orange;
+    margin-left: 1em;
+}
