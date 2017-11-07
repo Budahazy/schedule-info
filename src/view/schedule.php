@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Schedule</title>
-    <link href="../style/style.css" rel="stylesheet" type="text/css" />
+    <link href="../view/style/style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 

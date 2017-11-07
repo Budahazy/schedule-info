@@ -1,6 +1,6 @@
 @font-face {
     font-family: dotMatrix;
-    src: url('../font/led_counter-7.ttf');
+    src: url('font/led_counter-7.ttf');
 }
 
 html {
