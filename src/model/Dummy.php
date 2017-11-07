@@ -1,19 +1,22 @@
 <?php
 
-    class Dummy {
-        public function __construct() {
+class Dummy
+{
+    public function __construct()
+    {
 
-        }
-
-        public function getDepartures($stop) {
-            return array(
-                array('line' => 'M3', 'destination' => 'Újpest-központ', 'in' => 1),
-                array('line' => 'M3A', 'destination' => 'Árpád üzletház', 'in' => 2),
-                                array('line' => 'M3A', 'destination' => 'Árpád üzletház', 'in' => 2),
-                                                    array('line' => 'M3A', 'destination' => 'Árpád üzletház', 'in' => 2)
-            );
-        }
     }
+
+    public function getDepartures($stop)
+    {
+        return array(
+            array('line' => 'M3', 'destination' => 'Újpest-központ M', 'in' => 1),
+            array('line' => 'M3A', 'destination' => 'Árpád üzletház M', 'in' => 2),
+            array('line' => '8E', 'destination' => 'Újpalota M', 'in' => 3),
+            array('line' => '133E', 'destination' => 'Újpalota M', 'in' => 10)
+        );
+    }
+}
 
 ?>
 

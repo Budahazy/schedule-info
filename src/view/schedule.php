@@ -11,7 +11,7 @@
 
 <pre id="info-screen"><?php
         foreach($departures as $departure) {
-            print $departure['line']. " ";
+            printf("%-5s", $departure['line']);
             print $departure['destination']. " ";
             print $departure['in']. "'";
             print "<br />";
