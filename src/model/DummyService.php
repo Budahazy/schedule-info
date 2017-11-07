@@ -1,6 +1,6 @@
 <?php
 
-class Dummy
+class DummyService
 {
     public function __construct()
     {
