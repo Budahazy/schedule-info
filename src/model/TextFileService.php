@@ -4,7 +4,7 @@ class TextFileService {
     }
     public function getDepartures($stop) {
         $content = file_get_contents('data.csv');
-        $rows = explode("\r\n", $content);
+        $rows = explode("\n", $content);
         $output = array();
         foreach($rows as $row){
             $explodedRow = explode(',',$row);
