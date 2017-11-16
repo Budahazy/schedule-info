@@ -3,7 +3,7 @@ class TextFileService {
     public function __construct() {
     }
     public function getDepartures($stop) {
-        $content = file_get_contents('data.csv');
+        $content = file_get_contents('data.txt');
         $rows = explode("\n", $content);
         $output = array();
         foreach($rows as $row){

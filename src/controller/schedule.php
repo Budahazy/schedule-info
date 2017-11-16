@@ -14,7 +14,7 @@ if(!isset($_GET['stop']) || !preg_match('/^[0-9A-Z]*$/',$_GET['stop'])) {
 $scheduleService = new BKKService();
 $departures = $scheduleService->getDepartures($stop);
 
-var_dump($departures);
+//var_dump($departures);
 
 // 3. meghívunk egy view-t
 require('../view/schedule.php');

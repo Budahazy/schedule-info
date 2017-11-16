@@ -12,7 +12,7 @@
 <pre id="info-screen"><?php
     require_once('mb_pad_str.php');
     foreach($departures as $departure) {
-        printf("% -4s %s %2s'",
+        printf("% -4s %s %2s'\n",
             $departure['line'],
             mb_str_pad($departure['destination'], 16),
             $departure['in']
