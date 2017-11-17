@@ -1,6 +1,6 @@
 <?php
 
-require_once ('mysql/bkk.php');
+require_once('mysql/bkk.php');
 
 class BKKService
 {
@@ -44,6 +44,5 @@ class BKKService
         $bkk = new Bkk();
         return $bkk->getStopName($stop)[0]['stop_name'];
     }
-
 
 }

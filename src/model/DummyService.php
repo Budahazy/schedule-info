@@ -4,7 +4,6 @@ class DummyService
 {
     public function __construct()
     {
-
     }
 
     public function getDepartures($stop)
@@ -17,6 +16,4 @@ class DummyService
         );
     }
 }
-
-?>
 

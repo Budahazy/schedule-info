@@ -1,22 +1,22 @@
 <?php
+require_once ("../config.php");
+
 require_once('../model/DummyService.php');
 require_once('../model/TextFileService.php');
 require_once('../model/BKKService.php');
+require_once ('../model/BKKLiveService.php');
 
-// 1. bemenő adatok, validálni
+
 if(!isset($_GET['stop']) || !preg_match('/^[0-9A-Z]*$/',$_GET['stop'])) {
     $stop = 1;
 } else {
     $stop = $_GET['stop'];
 }
 
-// 2. model-beli osztálynak valami függvényét
-$scheduleService = new BKKService();
-$departures = $scheduleService->getDepartures($stop);
+$url = getBkkLiveUrl($stop);
+$service = new BKKLiveService($url);
+$departures = BKKLiveService::getSchedule($service->getShortNames(), $service->getTripHeadsigns(), $service->getStopTimes());
 
-//var_dump($departures);
-
-// 3. meghívunk egy view-t
 require('../view/schedule.php');
 ?>
 

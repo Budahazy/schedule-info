@@ -1,13 +1,73 @@
 <?php
 
- $url = "http://futar.bkk.hu/bkk-utvonaltervezo-api/ws/otp/api/where/arrivals-and-departures-for-stop.json?includeReferences=agencies,routes,trips,stops&stopId=BKK_F02769&minutesBefore=1&minutesAfter=30&key=bkk-web&version=3&appVersion=2.3.3-20170810153906";
+class BKKLiveService
+{
+    public $_jsonObject;
+    private $_stopTimesObject;
+    private $_routesObject;
+    private $_tripsObject;
 
- $file = file_get_contents($url);
+    public function __construct($url)
+    {
+        $file = file_get_contents($url);
+        $this->_jsonObject = json_decode($file);
+        $this->_stopTimesObject = $this->_jsonObject->data->entry->stopTimes;
+        $this->_routesObject = $this->_jsonObject->data->references->routes;
+        $this->_tripsObject = $this->_jsonObject->data->references->trips;
+    }
 
- $jsonObject = json_decode($file);
+    private function getRouteIDs()
+    {
+        $routeIDs = array();
+        foreach ($this->_tripsObject as $trip) {
+            array_push($routeIDs, $trip->routeId);
+        }
+        return $routeIDs;
+    }
 
-$stopTimes = $jsonObject->data->entry->stopTimes;
+    function getShortNames()
+    {
+        $routeIDs = $this->getRouteIDs();
+        $shortNames = array();
+        foreach ($routeIDs as $id) {
+            foreach ($this->_routesObject as $item) {
+                if ($id == $item->id) {
+                    array_push($shortNames, $item->shortName);
+                    break;
+                }
+            }
+        }
+        return $shortNames;
+    }
 
-$routeIDs = $jsonObject->data->references->stops->BKK_F02769->routeIds;
+    function getTripHeadsigns()
+    {
+        $result = array();
+        foreach ($this->_tripsObject as $item) {
+            array_push($result, $item->tripHeadsign);
+        }
+        return $result;
+    }
 
- var_dump($routeIDs);
+    function getStopTimes()
+    {
+        $result = array();
+        foreach ($this->_stopTimesObject as $item) {
+            if (property_exists($item, 'predictedArrivalTime')) {
+                array_push($result, date('i', $item->predictedArrivalTime) - date('i'));
+            } else if (property_exists($item, 'arrivalTime')) {
+                array_push($result, date('i', $item->arrivalTime) - date('i'));
+            }
+        }
+        return $result;
+    }
+
+    static function getSchedule($shortNames, $tripHeadsign, $stopTimes)
+    {
+        $result = array();
+        for ($i = 0; $i < count($stopTimes); $i++) {
+            array_push($result, array('line' => $shortNames[$i], 'destination' => $tripHeadsign[$i], 'in' => $stopTimes[$i]));
+        }
+        return $result;
+    }
+}
