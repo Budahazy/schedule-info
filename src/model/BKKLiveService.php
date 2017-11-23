@@ -54,9 +54,9 @@ class BKKLiveService
         $result = array();
         foreach ($this->_stopTimesObject as $item) {
             if (property_exists($item, 'predictedArrivalTime')) {
-                array_push($result, date('i', $item->predictedArrivalTime) - date('i'));
+                array_push($result,intval(($item->predictedArrivalTime - time()) / 60) . ":" . ($item->arrivalTime-time()) % 60);
             } else if (property_exists($item, 'arrivalTime')) {
-                array_push($result, date('i', $item->arrivalTime) - date('i'));
+                array_push($result,intval(($item->arrivalTime-time()) / 60) . ":" . ($item->arrivalTime-time()) % 60);
             }
         }
         return $result;

@@ -13,3 +13,13 @@ html {
     color: orange;
     margin-left: 1em;
 }
+
+.flash {
+    animation: blinker 2s linear infinite;
+}
+
+@keyframes blinker {
+    20% {opacity: 1;}
+    50% {opacity: 0;}
+    80% {opacity: 1;}
+}
