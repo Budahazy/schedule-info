@@ -16,57 +16,31 @@ class BKKLiveService
         $this->_tripsObject = $this->_jsonObject->data->references->trips;
     }
 
-    private function getRouteIDs()
+
+    private function getRouteShorNameFromTripId($tripId)
     {
-        $routeIDs = array();
-        foreach ($this->_tripsObject as $trip) {
-            array_push($routeIDs, $trip->routeId);
-        }
-        return $routeIDs;
+        $routeId = $this->_tripsObject->$tripId->routeId;
+        return $this->_routesObject->$routeId->shortName;
     }
 
-    function getShortNames()
+    private function getStopTimes($stopTime)
     {
-        $routeIDs = $this->getRouteIDs();
-        $shortNames = array();
-        foreach ($routeIDs as $id) {
-            foreach ($this->_routesObject as $item) {
-                if ($id == $item->id) {
-                    array_push($shortNames, $item->shortName);
-                    break;
-                }
-            }
+        if (property_exists($stopTime, 'predictedArrivalTime')) {
+            return intval(($stopTime->predictedArrivalTime - time()) / 60) . ":" . ($stopTime->arrivalTime - time()) % 60;
+        } else if (property_exists($stopTime, 'arrivalTime')) {
+            return intval(($stopTime->arrivalTime - time()) / 60) . ":" . ($stopTime->arrivalTime - time()) % 60;
         }
-        return $shortNames;
     }
 
-    function getTripHeadsigns()
+    public function getDepartures()
     {
         $result = array();
-        foreach ($this->_tripsObject as $item) {
-            array_push($result, $item->tripHeadsign);
-        }
-        return $result;
-    }
-
-    function getStopTimes()
-    {
-        $result = array();
-        foreach ($this->_stopTimesObject as $item) {
-            if (property_exists($item, 'predictedArrivalTime')) {
-                array_push($result,intval(($item->predictedArrivalTime - time()) / 60) . ":" . ($item->arrivalTime-time()) % 60);
-            } else if (property_exists($item, 'arrivalTime')) {
-                array_push($result,intval(($item->arrivalTime-time()) / 60) . ":" . ($item->arrivalTime-time()) % 60);
-            }
-        }
-        return $result;
-    }
-
-    static function getSchedule($shortNames, $tripHeadsign, $stopTimes)
-    {
-        $result = array();
-        for ($i = 0; $i < count($stopTimes); $i++) {
-            array_push($result, array('line' => $shortNames[$i], 'destination' => $tripHeadsign[$i], 'in' => $stopTimes[$i]));
+        foreach ($this->_stopTimesObject as $stopTime) {
+            $result[] = array(
+                'line' => $this->getRouteShorNameFromTripId($stopTime->tripId),
+                'destination' => $stopTime->stopHeadsign ,
+                'in' => $this->getStopTimes($stopTime)
+            );
         }
         return $result;
     }

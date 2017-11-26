@@ -14,8 +14,8 @@ if(!isset($_GET['stop']) || !preg_match('/^[0-9A-Z]*$/',$_GET['stop'])) {
 }
 
 $url = getBkkLiveUrl($stop);
-$service = new BKKLiveService($url);
-$departures = BKKLiveService::getSchedule($service->getShortNames(), $service->getTripHeadsigns(), $service->getStopTimes());
+$service_1 = new BKKLiveService($url);
+$departures = $service_1->getDepartures();
 
 require('../view/schedule.php');
 ?>
